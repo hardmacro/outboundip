@@ -16,4 +16,4 @@ WORKDIR /app
 
 COPY --from=BUILD /src/outboundip .
 
-CMD [ "./outboundip" ]
+ENTRYPOINT [ "./outboundip" ]

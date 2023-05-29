@@ -59,6 +59,25 @@ func main() {
 		)
 		return c.String(http.StatusOK, c.RealIP())
 	})
+
+	app.GET("/healthz", func(c echo.Context) error {
+		logger.Debugw("get",
+			"path", "/healthz",
+			"remote", c.RealIP(),
+			"userAgent", c.Request().UserAgent(),
+		)
+		return c.String(http.StatusOK, "ok")
+	})
+
+	app.GET("/healthz/ready", func(c echo.Context) error {
+		logger.Debugw("get",
+			"path", "/healthz/ready",
+			"remote", c.RealIP(),
+			"userAgent", c.Request().UserAgent(),
+		)
+		return c.String(http.StatusOK, "ready")
+	})
+
 	app.Logger.Fatal(
 		app.Start(fmt.Sprintf(":%s", flagListenPort)),
 	)
