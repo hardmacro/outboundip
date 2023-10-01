@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/hardmacro/outboundip/logger"
@@ -9,7 +8,7 @@ import (
 )
 
 func main() {
-	logger.InitLogger(false)
+	logger.InitLogger(true)
 
 	logger.Info("hello")
 
@@ -19,21 +18,20 @@ func main() {
 
 		ip := "unknown"
 		for key, values := range c.Request().Header {
+			logger.Infow("headers",
+				"key", key,
+				"values", values,
+			)
 			if key == "Do-Connecting-Ip" {
 				if len(values) > 0 {
 					ip = values[0]
 				}
 			}
-			fmt.Printf(":%s = (", key)
-			for _, value := range values {
-				fmt.Printf("%s,", value)
-			}
-			fmt.Printf(")\n")
 		}
 
-		logger.Infow(c.Request().RemoteAddr)
+		// logger.Infow(c.Request().RemoteAddr)
 		// ip := strings.Split(c.Request().RemoteAddr, ":")[0] // TODO: probably actually the real IP is a header?
-		logger.Info(ip)
+		// logger.Info(ip)
 		return c.String(http.StatusOK, ip)
 	})
 	e.Logger.Fatal(e.Start(":8080"))
