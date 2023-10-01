@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/hardmacro/outboundip/logger"
@@ -23,14 +24,12 @@ func main() {
 					ip = values[0]
 				}
 			}
-			// fmt.Printf(":%s = (", key)
-			// for _, value := range values {
-			// 	fmt.Printf(" ")
-			// 	fmt.Printf("%s", value)
-			// }
-			// fmt.Printf(")\n")
+			fmt.Printf(":%s = (", key)
+			for _, value := range values {
+				fmt.Printf("%s,", value)
+			}
+			fmt.Printf(")\n")
 		}
-		// return nil
 
 		logger.Infow(c.Request().RemoteAddr)
 		// ip := strings.Split(c.Request().RemoteAddr, ":")[0] // TODO: probably actually the real IP is a header?
